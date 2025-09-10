@@ -1,0 +1,25 @@
+name: Docker Build & Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Pull existing image (shivam193/repostry-k8)
+        run: docker pull shivam193/repostry-k8:01
+
+      - name: Push image again to Docker Hub
+        run: docker push shivam193/repostry-k8:01
